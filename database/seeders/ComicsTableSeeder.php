@@ -28,12 +28,8 @@ class ComicsTableSeeder extends Seeder
             $NewComic->type = $comic['type'];
             $NewComic->artists = '';
             $NewComic->writers = '';
-            foreach ($comic['artists'] as $item) {
-                $NewComic->artists .= $item . ', ';
-            }
-            foreach ($comic['writers'] as $item) {
-                $NewComic->writers .= $item . ', ';
-            }
+            $NewComic->artists = json_encode($comic['artists']);
+            $NewComic->writers = json_encode($comic['writers']);
             $NewComic->save();
         }
     }
