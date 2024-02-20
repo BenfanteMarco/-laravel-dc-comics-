@@ -8,6 +8,7 @@
         <div class="my-bg-black py-5">
             <div class="container">
                 <div class="row">
+
                     {{-- COMICS SECTION --}}
                     @foreach ($comics as $comic)
                         <div class="col-2 card_container">
@@ -30,8 +31,9 @@
                 </div>
 
                 <div class="text-center mt-5">
-                    <button type="button" class="default-btn"> LOAD MORE </button>
+                    <a class="default-btn" href=" {{ route('comics.create') }}"> Aggiungi Comic </a>
                 </div>
             </div>
         </div>
-    @endsection
+    </div>
+@endsection
