@@ -1,8 +1,9 @@
 @extends('layout.base')
 
 @section('content')
-    <form action="{{ route('comics.store') }}" method="post">
+    <form action="{{ route('comics.update', ['comic' => $comic['id']]) }}" method="post">
         @csrf
+        @method('PUT')
 
         <div class="jumbo-container">
             <div class="blue-jumbo-bar">
@@ -21,9 +22,9 @@
                         <div>
                             <label for="title" class="d-block">Title:</label>
                             <input required class="w-75 @error('title') my-is-invalid @enderror" type="text"
-                                id="title" name="title" value="{{ @old('title') }}">
+                                id="title" name="title" value="{{ $comic['title'] }}">
                             @error('title')
-                                <div>
+                                <div class="mt-1 text-danger">
                                     {{ $message }}
                                 </div>
                             @enderror
@@ -32,8 +33,8 @@
                         <!-- IMG -->
                         <div class="mt-4">
                             <label for="thumb" class="d-block">Image:</label>
-                            <input required class="w-75" type="text" id="thumb" name="thumb"
-                                value="{{ @old('thumb') }}">
+                            <input required class="w-75 @error('thumb') my-is-invalid @enderror" type="text"
+                                id="thumb" name="thumb" value="{{ $comic['thumb'] }}">
                             @error('thumb')
                                 <div class="mt-1 text-danger">
                                     {{ $message }}
@@ -45,7 +46,7 @@
                         <div class="mt-4">
                             <label for="type" class="d-block">Comic type:</label>
                             <input required class="w-50 @error('type') my-is-invalid @enderror" type="text"
-                                id="type" name="type" value="{{ @old('type') }}">
+                                id="type" name="type" value="{{ $comic['type'] }}">
                             @error('type')
                                 <div class="mt-1 text-danger">
                                     {{ $message }}
@@ -55,8 +56,9 @@
 
                         {{-- COMICS DESCRIPTION --}}
                         <div class="mt-4">
-                            <label for="description" class="d-block">Description:</label>
-                            <textarea class="@error('description') my-is-invalid @enderror" required rows="10" cols="60" id="description" name="description" value="{{ @old('description') }}">
+                            <label for="description" class=" @error('description') my-is-invalid @enderror d-block">Description:</label>
+                            <textarea required rows="10" cols="60" id="description" name="description">
+                                {{ $comic['description'] }}
                             </textarea>
                             @error('description')
                                 <div class="mt-1 text-danger">
@@ -101,7 +103,8 @@
                                             <tr>
                                                 <td class="td-index">Art by:</td>
                                                 <td>
-                                                    <textarea class="mx-2 @error('artits') my-is-invalid @enderror" required class="mx-2" rows="5" cols="45" id="artists" name="artists" value="{{ @old('artists') }}">
+                                                    <textarea required class="mx-2 @error('artits') my-is-invalid @enderror" rows="5" cols="45" id="artists" name="artists">
+                                                        {{ implode(',', $artists) }}       
                                                     </textarea>
                                                     @error('artists')
                                                         <div class="mt-1 text-danger">
@@ -113,7 +116,8 @@
                                             <tr>
                                                 <td class="td-index">Written by:</td>
                                                 <td>
-                                                    <textarea class="mx-2 @error('writers') my-is-invalid @enderror" required class="mx-2" rows="5" cols="45" id="writers" name="writers" value="{{ @old('writers') }}">
+                                                    <textarea required class="mx-2 @error('writers') my-is-invalid @enderror" rows="5" cols="45" id="writers" name="writers">
+                                                       {{ implode(',', $writers) }}                             
                                                     </textarea>
                                                     @error('writers')
                                                         <div class="mt-1 text-danger">
@@ -142,7 +146,7 @@
                                                 <td>
                                                     <input required class="w-75 @error('series') my-is-invalid @enderror"
                                                         type="text" name="series" id="series"
-                                                        value="{{ @old('series') }}">
+                                                        value="{{ $comic['series'] }}">
                                                 </td>
                                             </tr>
                                             @error('price')
@@ -153,9 +157,9 @@
                                             <tr>
                                                 <td class="td-index">U.S. Price:</td>
                                                 <td>
-                                                    <input required type="text"
-                                                        class="@error('price') my-is-invalid @enderror" name="price"
-                                                        id="price" value="{{ @old('price') }}">
+                                                    <input class="@error('price') my-is-invalid @enderror" required
+                                                        type="text" name="price" id="price"
+                                                        value="{{ $comic['price'] }}">
                                                 </td>
                                             </tr>
                                             @error('sale_date')
@@ -166,9 +170,9 @@
                                             <tr>
                                                 <td class="td-index">On Sale Date:</td>
                                                 <td>
-                                                    <input required class="w-50 @error('sale_date') my-is-invalid @enderror"
+                                                    <input class="@error('sale_date') my-is-invalid @enderror w-50" required
                                                         type="date" name="sale_date" id="sale_date"
-                                                        value="{{ @old('sale_date') }}">
+                                                        value="{{ $comic['sale_date'] }}">
                                                 </td>
                                             </tr>
                                         </table>
@@ -183,6 +187,7 @@
                 </div>
             </div>
         </div>
+
         <div class="text-center m-5">
             <button type="submit" class="default-btn"> Aggiungi Comic</button>
         </div>
